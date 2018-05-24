@@ -9,5 +9,6 @@
     <include file="RR-03_01_create-roles-table.xml" relativeToChangelogFile="true"/>
     <include file="RR-03_02_create-users-roles-table.xml" relativeToChangelogFile="true"/>
     <include file="RR-03_03_create-users-roles-table-constraints.xml" relativeToChangelogFile="true"/>
+    <include file="RR-04_create-beacons-table.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
