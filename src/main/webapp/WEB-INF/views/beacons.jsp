@@ -6,7 +6,7 @@
 <html lang="ru">
 <head>
     <meta charset="utf-8">
-    <title>Indoor-навигация | Управление пользователями</title>
+    <title>Indoor-навигация | Управление Bluetooth-метками</title>
 
     <link href="<spring:url value="../resources/css/bootstrap.min.css"/>" rel="stylesheet" type="text/css">
     <link href="<spring:url value="../resources/css/metisMenu.min.css"/>" rel="stylesheet" type="text/css">
@@ -67,10 +67,10 @@
                         <a href="#"><i class="fa fa-table fa-fw"></i> Управление сущностями<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="active" href="<c:url value="/view/users.html"/>">Пользователи</a>
+                                <a href="<c:url value="/view/users.html"/>">Пользователи</a>
                             </li>
                             <li>
-                                <a href="<c:url value="/view/beacons.html"/>">Bluetooth-метки</a>
+                                <a class="active" href="<c:url value="/view/beacons.html"/>">Bluetooth-метки</a>
                             </li>
                             <li>
                                 <a href="#">Кабинеты</a>
@@ -97,37 +97,37 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default" style="width: 1080px">
                         <div class="panel-heading">
-                            Пользователи
-                            <button id="createUserBtn" style="margin-left: 20px;" class="btn btn-success btn-sm user-edit-btn" data-toggle="modal" data-target="#myModal">
-                                Создать пользователя
+                            Bluetooth-метки
+                            <button id="createBeaconBtn" style="margin-left: 20px;" class="btn btn-success btn-sm beacon-edit-btn" data-toggle="modal" data-target="#myModal">
+                                Создать метку
                             </button>
                         </div>
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
-                                <table id="usersTable" class="table table-striped table-bordered table-hover">
+                                <table id="beaconsTable" class="table table-striped table-bordered table-hover">
                                     <thead>
                                     <tr>
                                         <th>ID</th>
                                         <th>Имя</th>
-                                        <th>Фамилия</th>
-                                        <th>Логин</th>
-                                        <th>Пароль</th>
+                                        <th>Этаж</th>
+                                        <th>Координата X</th>
+                                        <th>Координата Y</th>
                                         <th>Управление</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <c:forEach items="${users}" var="user">
-                                            <tr id="userEntry_${user.id}" class="gradeA">
-                                                <td>${user.id}</td>
-                                                <td>${user.firstName}</td>
-                                                <td>${user.lastName}</td>
-                                                <td>${user.login}</td>
-                                                <td>${user.password}</td>
+                                        <c:forEach items="${beacons}" var="beacon">
+                                            <tr id="beaconEntry_${beacon.id}" class="gradeA">
+                                                <td>${beacon.id}</td>
+                                                <td>${beacon.name}</td>
+                                                <td>${beacon.floorNum}</td>
+                                                <td>${beacon.cordx}</td>
+                                                <td>${beacon.cordy}</td>
                                                 <td>
-                                                    <button id="editUserBtn_${user.id}" class="btn btn-primary btn-sm user-edit-btn edit-user-btn" data-toggle="modal" data-target="#myModal">
+                                                    <button id="editBeaconBtn_${beacon.id}" onclick="fillEditForm(${beacon.id})" class="btn btn-primary btn-sm user-edit-btn edit-beacon-btn" data-toggle="modal" data-target="#myModal">
                                                         Изменить
                                                     </button>
-                                                    <button id="deleteUserBtn_${user.id}" class="btn btn-danger btn-sm user-edit-btn delete-user-btn">
+                                                    <button id="deleteBeaconBtn_${beacon.id}" onclick="deleteEntity(beaconsApiUrl, ${beacon.id})" class="btn btn-danger btn-sm user-edit-btn delete-beacon-btn">
                                                         Удалить
                                                     </button>
                                                 </td>
@@ -144,23 +144,23 @@
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                             <h4 class="modal-title" id="modalLabel"></h4>
                                         </div>
-                                        <div id="userEditForm" class="modal-body">
-                                            <input id="userIdInput" type="hidden" name="id">
+                                        <div id="beaconEditForm" class="modal-body">
+                                            <input id="beaconIdInput" type="hidden" name="id">
                                             <div class="form-group">
                                                 <label>Имя</label>
-                                                <input class="form-control" name="firstName" type="text">
+                                                <input class="form-control" name="name" type="text">
                                             </div>
                                             <div class="form-group">
-                                                <label>Фамилия</label>
-                                                <input class="form-control" name="lastName" type="text">
+                                                <label>Номер этажа</label>
+                                                <input class="form-control" name="floorNum" type="text">
                                             </div>
                                             <div class="form-group">
-                                                <label>Логин</label>
-                                                <input class="form-control" name="login" type="text">
+                                                <label>Координата X</label>
+                                                <input class="form-control" name="cordx" type="text">
                                             </div>
                                             <div class="form-group">
-                                                <label>Пароль</label>
-                                                <input class="form-control" name="password" type="text">
+                                                <label>Координата Y</label>
+                                                <input class="form-control" name="cordy" type="text">
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -190,76 +190,69 @@
 
 <script>
 
-    $(function() {
-        var usersApiUrl = '${pageContext.request.contextPath}/api/users';
+    var beaconsApiUrl = '${pageContext.request.contextPath}/api/beacons';
 
-        var userTable = $('#usersTable');
-        userTable.DataTable({
+    $(function() {
+
+        var beaconsTable = $('#beaconsTable');
+        beaconsTable.DataTable({
             responsive: true
         });
 
-        $('#createUserBtn').bind("click", function () {
-            $("#modalLabel").text("Создание пользователя");
+        $('#createBeaconBtn').bind("click", function () {
+            $("#modalLabel").text("Создание метки");
             clearEditForm();
         });
 
-        userTable.find('.edit-user-btn').each(function (index, btn) {
+        /*beaconsTable.find('.edit-beacon-btn').each(function (index, btn) {
             btn.addEventListener("click", function () {
                 fillEditForm(btn.id.substring(btn.id.indexOf('_') + 1));
             })
-        });
+        });*/
 
-        userTable.find('.delete-user-btn').each(function (index, btn) {
+        /*beaconsTable.find('.delete-beacon-btn').each(function (index, btn) {
             btn.addEventListener("click", function () {
-                deleteEntity(usersApiUrl, btn.id.substring(btn.id.indexOf('_') + 1), 'Пользователь удалён');
+                deleteEntity(beaconsApiUrl, btn.id.substring(btn.id.indexOf('_') + 1), 'Метка удалена');
             })
-        });
+        });*/
 
         $("#applyChangesBtn").bind("click", function () {
             applyChanges();
         });
 
-        function fillEditForm(userId) {
-            $("#modalLabel").text("Редактирование пользователя");
-            var userFormInputs = $("#userEditForm").find("input");
-            var userTableEntry = $("#userEntry_" + userId).find("td");
-            userFormInputs[0].value = userTableEntry[0].innerText;
-            userFormInputs[1].value = userTableEntry[1].innerText;
-            userFormInputs[2].value = userTableEntry[2].innerText;
-            userFormInputs[3].value = userTableEntry[3].innerText;
-            userFormInputs[4].value = userTableEntry[4].innerText;
-        }
+
 
         function clearEditForm() {
-            $("#userEditForm").find("input").each(function (index, input) {
+            $("#beaconEditForm").find("input").each(function (index, input) {
                 input.value = '';
             })
         }
 
         function applyChanges() {
-            var userFormInputs = $("#userEditForm").find("input");
-            var user = {
-                firstName: userFormInputs[1].value,
-                lastName: userFormInputs[2].value,
-                login: userFormInputs[3].value,
-                password: userFormInputs[4].value
+            var beaconFormInputs = $("#beaconEditForm").find("input");
+            var beacon = {
+                name: beaconFormInputs[1].value,
+                floorNum: beaconFormInputs[2].value,
+                cordx: beaconFormInputs[3].value,
+                cordy: beaconFormInputs[4].value
             };
+            console.log(beacon);
             var method;
-            if (userFormInputs[0].value.length === 0) {
+            if (beaconFormInputs[0].value.length === 0) {
                 method = "POST";
             } else {
                 method = "PUT";
-                user.id = userFormInputs[0].value;
+                beacon.id = beaconFormInputs[0].value;
             }
-            if (!valid(user)) {
-                toastr["warning"]("Логин/пароль не должны быть пустыми", "Ошибка")
+            if (!valid(beacon)) {
+                toastr["warning"]("Поля не должны быть пустыми", "Ошибка")
                 return;
             }
-            updateEntity(user, usersApiUrl, method)
+            updateEntity(beacon, beaconsApiUrl, method)
         }
 
         function valid(data) {
-            return data.login.length !== 0 && data.password.length !== 0;
+            return data.name.length !== 0 && data.floorNum.length !== 0 && data.cordx.length !== 0 && data.cordy.length !== 0;
         }
 
         function updateEntity(entity, url, method) {
@@ -270,49 +263,61 @@
                 contentType: "application/json",
                 dataType: "json",
                 success: function () {
-                    if (method === "POST") toastr["success"]("Пользователь создан", "Успех");
-                    else if (method === "PUT") toastr["success"]("Пользователь отредактирован", "Успех");
+                    if (method === "POST") toastr["success"]("Метка создана", "Успех");
+                    else if (method === "PUT") toastr["success"]("Метка отредактирована", "Успех");
                     reloadEntityTable(url);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    toastr["error"]("Ошибка при редактировании пользователя: " + textStatus, "Ошибка");
+                    toastr["error"]("Ошибка при редактировании метки: " + textStatus, "Ошибка");
                 }
             })
         }
 
-        function deleteEntity(url, id, successMsg) {
-            $.ajax({
-                url: url + '/' + id,
-                method: "DELETE",
-                success: function () {
-                    toastr["success"](successMsg, "Успех");
-                    reloadEntityTable(url);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    toastr["error"]("Ошибка при удалении: " + textStatus, "Ошибка");
-                }
-            })
-        }
-
-        function reloadEntityTable(url) {
-            $.ajax({
-                url: url,
-                method: "GET",
-                dataType: "json",
-                success: function (data) {
-                    updateUserTable(data.result);
-                }
-            })
-        }
-
-        function updateUserTable(users) {
-            console.log(users);
-            /*var datatable = $("#usersTable").dataTable().api();
-            datatable.clear();
-            datatable.rows.add(users);
-            datatable.draw();*/
-        }
     });
+
+    function fillEditForm(beaconId) {
+        $("#modalLabel").text("Редактирование метки");
+        var beaconFormInputs = $("#beaconEditForm").find("input");
+        var beaconTableEntry = $("#beaconEntry_" + beaconId).find("td");
+        beaconFormInputs[0].value = beaconTableEntry[0].innerText;
+        beaconFormInputs[1].value = beaconTableEntry[1].innerText;
+        beaconFormInputs[2].value = beaconTableEntry[2].innerText;
+        beaconFormInputs[3].value = beaconTableEntry[3].innerText;
+        beaconFormInputs[4].value = beaconTableEntry[4].innerText;
+    }
+
+    function deleteEntity(url, id, successMsg) {
+        $.ajax({
+            url: url + '/' + id,
+            method: "DELETE",
+            success: function () {
+                toastr["success"](successMsg, "Успех");
+                reloadEntityTable(url);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                toastr["error"]("Ошибка при удалении: " + textStatus, "Ошибка");
+            }
+        })
+    }
+
+    function reloadEntityTable(url) {
+        $.ajax({
+            url: url,
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+                updateUserTable(data.result);
+            }
+        })
+    }
+
+    function updateUserTable(beacons) {
+        //console.log(beacons);
+        /*var datatable = $("#usersTable").dataTable().api();
+        datatable.clear();
+        datatable.rows.add(users);
+        datatable.draw();*/
+    }
 </script>
 
 </body>

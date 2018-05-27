@@ -43,4 +43,9 @@ public class BeaconServiceImpl implements BeaconService {
     public List<Beacon> readAll() {
         return beaconDAO.readAll();
     }
+
+    @Override
+    public List<Beacon> readAllByFloorNum(Integer floorNum) {
+        return beaconDAO.findAllByFloorNum(floorNum);
+    }
 }

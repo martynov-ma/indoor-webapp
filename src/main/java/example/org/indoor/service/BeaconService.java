@@ -10,4 +10,5 @@ public interface BeaconService {
     void update(Beacon role);
     void delete(Integer id);
     List<Beacon> readAll();
+    List<Beacon> readAllByFloorNum(Integer floorNum);
 }

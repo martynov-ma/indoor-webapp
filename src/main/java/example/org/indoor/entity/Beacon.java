@@ -18,10 +18,10 @@ public class Beacon extends BaseEntity<Integer> {
     private Integer floorNum;
 
     @Column(name = "cordx")
-    private Integer cordX;
+    private Integer cordx;
 
     @Column(name = "cordy")
-    private Integer cordY;
+    private Integer cordy;
 
     public Integer getId() {
         return id;
@@ -47,20 +47,20 @@ public class Beacon extends BaseEntity<Integer> {
         this.floorNum = floorNum;
     }
 
-    public Integer getCordX() {
-        return cordX;
+    public Integer getCordx() {
+        return cordx;
     }
 
-    public void setCordX(Integer cordX) {
-        this.cordX = cordX;
+    public void setCordx(Integer cordx) {
+        this.cordx = cordx;
     }
 
-    public Integer getCordY() {
-        return cordY;
+    public Integer getCordy() {
+        return cordy;
     }
 
-    public void setCordY(Integer cordY) {
-        this.cordY = cordY;
+    public void setCordy(Integer cordy) {
+        this.cordy = cordy;
     }
 
 }

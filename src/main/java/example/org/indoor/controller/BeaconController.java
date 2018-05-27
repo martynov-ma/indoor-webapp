@@ -10,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,12 +27,18 @@ public class BeaconController {
 
     /*
      * GET /api/beacons - список меток
+     * GET /api/beacons?floorNum={floorNum} - список меток на этаже
      */
     @PreAuthorize("hasAnyAuthority('USER', 'MANAGER', 'ADMIN')")
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<Response> list() {
+    public ResponseEntity<Response> list(@RequestParam(value = "floorNum", required = false) Integer floorNum) {
         try {
-            List<Beacon> beacons = beaconService.readAll();
+            List<Beacon> beacons;
+            if (floorNum == null) {
+                beacons = beaconService.readAll();
+            } else {
+                beacons = beaconService.readAllByFloorNum(floorNum);
+            }
             return new ResponseEntity<Response>(new SuccessResponse(beacons), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<Response>(new ErrorResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);

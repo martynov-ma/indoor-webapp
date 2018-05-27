@@ -14,6 +14,7 @@
     <link href="<spring:url value="../resources/css/font-awesome.min.css"/>" rel="stylesheet" type="text/css">
     <link href="<spring:url value="../resources/css/timeline.css"/>" rel="stylesheet" type="text/css">
     <link href="<spring:url value="../resources/css/morris.css"/>" rel="stylesheet" type="text/css">
+    <link href="<spring:url value="../resources/css/toastr.min.css"/>" rel="stylesheet" type="text/css">
 
     <style type="text/css">
         .demo-container {
@@ -26,14 +27,6 @@
             height: 100%;
             font-size: 14px;
             line-height: 1.2em;
-        }
-        #placeholder .button {
-            position: absolute;
-            cursor: pointer;
-        }
-        #placeholder div.button {
-            font-size: smaller;
-            padding: 2px;
         }
     </style>
 </head>
@@ -89,7 +82,7 @@
                                 <a href="<c:url value="/view/users.html"/>">Пользователи</a>
                             </li>
                             <li>
-                                <a href="#">Bluetooth-метки</a>
+                                <a href="<c:url value="/view/beacons.html"/>">Bluetooth-метки</a>
                             </li>
                             <li>
                                 <a href="#">Кабинеты</a>
@@ -113,20 +106,22 @@
             </div>
 
             <!-- ... Your content goes here ... -->
-            <div class="panel tabbed-panel panel-default" style="width: 1040px;">
+            <div class="panel tabbed-panel panel-default" style="width: 1040px; height: 640px">
                 <div class="panel-heading clearfix">
-                    <div class="panel-title pull-left">План здания по этажам</div>
+                    <div class="panel-title pull-left">
+                        План здания по этажам
+                    </div>
                     <div class="pull-right">
-                        <ul class="nav nav-tabs">
+                        <ul id="floorTabs" class="nav nav-tabs">
                             <li class="active"><a href="#tab-default-1" data-toggle="tab">Этаж 1</a></li>
                             <li><a href="#tab-default-2" data-toggle="tab">Этаж 2</a></li>
                             <li><a href="#tab-default-3" data-toggle="tab">Этаж 3</a></li>
                             <li class="dropdown">
                                 <a href="#" data-toggle="dropdown">Ещё <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#tab-default-3" data-toggle="tab">Этаж 4</a></li>
-                                    <li><a href="#tab-default-4" data-toggle="tab">Этаж 5</a></li>
-                                    <li><a href="#tab-default-5" data-toggle="tab">Этаж 6</a></li>
+                                    <li><a href="#tab-default-4" data-toggle="tab">Этаж 4</a></li>
+                                    <li><a href="#tab-default-5" data-toggle="tab">Этаж 5</a></li>
+                                    <li><a href="#tab-default-6" data-toggle="tab">Этаж 6</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -136,20 +131,33 @@
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="tab-default-1">
                             <div class="demo-container">
-                                <div id="placeholder" class="demo-placeholder"></div>
+                                <div id="floor1" class="demo-placeholder"></div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="tab-default-2">
-                            Page 2
+                        <div class="tab-pane fade active" id="tab-default-2">
+                            <div class="demo-container">
+                                <div id="floor2" class="demo-placeholder"></div>
+                            </div>
                         </div>
-                        <div class="tab-pane fade" id="tab-default-3">
-                            Page 3
+                        <div class="tab-pane fade active" id="tab-default-3">
+                            <div class="demo-container">
+                                <div id="floor3" class="demo-placeholder"></div>
+                            </div>
                         </div>
-                        <div class="tab-pane fade" id="tab-default-4">
-                            Page 4
+                        <div class="tab-pane fade active" id="tab-default-4">
+                            <div class="demo-container">
+                                <div id="floor4" class="demo-placeholder"></div>
+                            </div>
                         </div>
-                        <div class="tab-pane fade" id="tab-default-5">
-                            Page 5
+                        <div class="tab-pane fade active" id="tab-default-5">
+                            <div class="demo-container">
+                                <div id="floor5" class="demo-placeholder"></div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade active" id="tab-default-6">
+                            <div class="demo-container">
+                                <div id="floor6" class="demo-placeholder"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -172,10 +180,120 @@
 <script src="<spring:url value="../resources/js/bootstrap.min.js"/>" type="text/javascript"></script>
 <script src="<spring:url value="../resources/js/metisMenu.min.js"/>" type="text/javascript"></script>
 <script src="<spring:url value="../resources/js/startmin.js"/>" type="text/javascript"></script>
+<script src="<spring:url value="../resources/js/toastr.min.js"/>" type="text/javascript"></script>
 
 <script type="text/javascript">
     $(function() {
-        var placeholder = $("#placeholder");
+
+        var beaconsApiUrl = '${pageContext.request.contextPath}/api/beacons';
+        
+        $("#testBtn").bind("click", function () {
+            /*var tdata = {
+                label: "beacon",
+                clickable: true,
+                data: [ [700, 540], [800, 540], [900, 540],
+                    [1000, 540], [1100, 540], [1200, 540],
+                    [1300, 540], [1400, 540], [1500, 540],
+                    [1600, 540], [1700, 540], [1765, 410],
+                    [1878, 410], [416, 502] ],
+                images: { show: false }, bars: { show: false }, lines: { show: false },
+                points: { show: true, radius: 3, lineWidth: 3 }
+            };
+
+            drawPlan($("#floor2"), "floor2.jpg", 2000, 1650, tdata, [ "blue" ]);*/
+        });
+
+        $("<div id='tooltip'></div>").css({
+            position: "absolute",
+            display: "none",
+            border: "1px solid #656565",
+            padding: "2px",
+            "background-color": "#9d9d9d",
+            opacity: 0.80
+        }).appendTo("body");
+        
+        buildPlanForFloor(1, $("#floor1"), "floor1.jpg", 2000, 1650, [ "blue" ]);
+
+        $("#floor1").bind("plotclick", function (event, pos, item) {
+            toastr["info"]("Координаты нажатия [" + Math.round(pos.x) + ", " + Math.round(pos.y) + "]");
+            //toastr["info"]("Координаты нажатия [" + Math.round(pos.x) + ", " + Math.round(pos.y) + "]<br/><br/><button type='button' class='btn btn-success btn-sm'>Добавить метку</button>");
+            if (item) {
+                highlight(item.series, item.datapoint);
+            }
+        });
+
+        $("#floor1").bind("plothover", function (event, pos, item) {
+            if (item) {
+                var x = Math.round(item.datapoint[0]),
+                    y = Math.round(item.datapoint[1]);
+
+                $("#tooltip").html(item.series.label + " [" + x + ", " + y + "]")
+                    .css({top: item.pageY + 5, left: item.pageX + 9})
+                    .fadeIn(200);
+            } else {
+                $("#tooltip").hide();
+            }
+        });
+
+        buildPlanForFloor(2, $("#floor2"), "floor2.jpg", 2000, 1650, [ "blue" ]);
+        buildPlanForFloor(3, $("#floor3"), "floor3.jpg", 2500, 700, [ "blue" ]);
+        buildPlanForFloor(4, $("#floor4"), "floor4.jpg", 2500, 700, [ "blue" ]);
+        buildPlanForFloor(5, $("#floor5"), "floor5.jpg", 2500, 700, [ "blue" ]);
+        buildPlanForFloor(6, $("#floor6"), "floor6.jpg", 2500, 700, [ "blue" ]);
+
+        function buildPlanForFloor(num, placeholder, planImgName, width, height, colors) {
+
+            var data = [];
+            function onDataReceived(response) {
+
+                for(i = 0; i < response.result.length; i++) {
+                    data.push([response.result[i].cordx, response.result[i].cordy]);
+                }
+
+                var points = {
+                    label: "beacon",
+                    clickable: true,
+                    data: data,
+                    images: { show: false }, bars: { show: false }, lines: { show: false },
+                    points: { show: true, radius: 3, lineWidth: 3 }
+                };
+                var floor1 = drawPlan(placeholder, planImgName, width, height, points, colors);
+            }
+
+            $.get(beaconsApiUrl + '?floorNum=' + num, onDataReceived);
+        }
+
+        function drawPlan(placeholder, planImgName, width, height, pointsData, colors) {
+            var data = [{
+                data: [ [ "resources/img/" + planImgName, 0, 0, width, height ] ],
+                images: { show: true }, bars: { show: false }, points: { show: false }, lines: { show: false }
+            }, pointsData];
+            var options = {
+                grid: {
+                    show: true,
+                    aboveData: true,
+                    clickable: true,
+                    hoverable: true
+                },
+                legend: {
+                    show: true,
+                    position: "ne"
+                },
+                series: {
+                    images: { show: true }, bars: { show: true }, points: { show: true }, lines: { show: true }
+                },
+                colors: colors,
+                xaxis: { zoomRange: [0.1, width], panRange: [0, width], max: width },
+                yaxis: { zoomRange: [0.1, height], panRange: [0, height], max: height },
+                zoom: { interactive: true },
+                pan: { interactive: true }
+            };
+            return plan = $.plot.image.loadDataImages(data, options, function () {
+                $.plot(placeholder, data, options);
+            });
+        }
+
+        /*var floor1 = $("#floor1");
         var data = [ {
             data: [ [ "resources/img/floor1.jpg", 0, 0, 2000, 1650 ] ],
             images: { show: true }, bars: { show: false }, points: { show: false }, lines: { show: false }
@@ -221,13 +339,13 @@
             pan: { interactive: true }
         };
         var map = $.plot.image.loadDataImages(data, options, function () {
-            $.plot(placeholder, data, options);
+            $.plot(floor1, data, options);
         });
-        placeholder.bind("plotclick", function (event, pos, item) {
+        floor1.bind("plotclick", function (event, pos, item) {
             if (item) {
                 map.highlight(item.series, item.datapoint);
             }
-        });
+        });*/
     });
 </script>
 
