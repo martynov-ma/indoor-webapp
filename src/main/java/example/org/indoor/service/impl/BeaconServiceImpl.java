@@ -16,8 +16,8 @@ public class BeaconServiceImpl implements BeaconService {
     private BeaconDAO beaconDAO;
 
     @Transactional
-    public Integer create(Beacon role) {
-        return beaconDAO.create(role);
+    public Integer create(Beacon beacon) {
+        return beaconDAO.create(beacon);
     }
 
     @Transactional
@@ -26,8 +26,8 @@ public class BeaconServiceImpl implements BeaconService {
     }
 
     @Transactional
-    public void update(Beacon role) {
-        beaconDAO.update(role);
+    public void update(Beacon beacon) {
+        beaconDAO.update(beacon);
     }
 
     @Transactional

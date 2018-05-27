@@ -62,7 +62,6 @@ public class BeaconController {
             Integer newBeaconId = beaconService.create(beacon);
             return new ResponseEntity<Response>(new SuccessResponse(newBeaconId), HttpStatus.OK);
         } catch (Exception e) {
-            e.printStackTrace();
             return new ResponseEntity<Response>(new ErrorResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

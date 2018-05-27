@@ -14,14 +14,14 @@ public class Beacon extends BaseEntity<Integer> {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "floor")
-    private Integer floor;
+    @Column(name = "floorNum")
+    private Integer floorNum;
 
     @Column(name = "cordx")
-    private Float cordX;
+    private Integer cordX;
 
     @Column(name = "cordy")
-    private Float cordY;
+    private Integer cordY;
 
     public Integer getId() {
         return id;
@@ -39,27 +39,27 @@ public class Beacon extends BaseEntity<Integer> {
         this.name = name;
     }
 
-    public Integer getFloor() {
-        return floor;
+    public Integer getFloorNum() {
+        return floorNum;
     }
 
-    public void setFloor(Integer floor) {
-        this.floor = floor;
+    public void setFloorNum(Integer floorNum) {
+        this.floorNum = floorNum;
     }
 
-    public Float getCordX() {
+    public Integer getCordX() {
         return cordX;
     }
 
-    public void setCordX(Float cordX) {
+    public void setCordX(Integer cordX) {
         this.cordX = cordX;
     }
 
-    public Float getCordY() {
+    public Integer getCordY() {
         return cordY;
     }
 
-    public void setCordY(Float cordY) {
+    public void setCordY(Integer cordY) {
         this.cordY = cordY;
     }
 

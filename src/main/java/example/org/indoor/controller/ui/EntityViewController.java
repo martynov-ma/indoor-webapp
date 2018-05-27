@@ -1,4 +1,4 @@
-package example.org.indoor.controller;
+package example.org.indoor.controller.ui;
 
 import example.org.indoor.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -6,8 +6,8 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="RR-04_create-beacons-table" author="Martynov Maksim">
-        <createTable tableName="beacons">
+    <changeSet id="RR-05_create-cabinets-table" author="Martynov Maksim">
+        <createTable tableName="cabinets">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -17,10 +17,16 @@
             <column name="floorNum" type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="cordx" type="int">
+            <column name="cordx1" type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="cordy" type="int">
+            <column name="cordy1" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cordx2" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cordy2" type="int">
                 <constraints nullable="false"/>
             </column>
         </createTable>
