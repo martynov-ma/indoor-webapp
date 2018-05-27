@@ -8,14 +8,15 @@
     <meta charset="utf-8">
     <title>Indoor-навигация | Управление пользователями</title>
 
-    <link href="<spring:url value="../css/bootstrap.min.css"/>" rel="stylesheet" type="text/css">
-    <link href="<spring:url value="../css/metisMenu.min.css"/>" rel="stylesheet" type="text/css"><!-- DataTables CSS -->
-    <link href="<spring:url value="../css/dataTables/dataTables.bootstrap.css"/>" rel="stylesheet">
-    <link href="<spring:url value="../css/dataTables/dataTables.responsive.css"/>" rel="stylesheet">
-    <link href="<spring:url value="../css/startmin.css"/>" rel="stylesheet" type="text/css">
-    <link href="<spring:url value="../css/font-awesome.min.css"/>" rel="stylesheet" type="text/css">
-    <link href="<spring:url value="../css/timeline.css"/>" rel="stylesheet" type="text/css">
-    <link href="<spring:url value="../css/morris.css"/>" rel="stylesheet" type="text/css">
+    <link href="<spring:url value="../resources/css/bootstrap.min.css"/>" rel="stylesheet" type="text/css">
+    <link href="<spring:url value="../resources/css/metisMenu.min.css"/>" rel="stylesheet" type="text/css">
+    <link href="<spring:url value="../resources/css/dataTables/dataTables.bootstrap.css"/>" rel="stylesheet">
+    <link href="<spring:url value="../resources/css/dataTables/dataTables.responsive.css"/>" rel="stylesheet">
+    <link href="<spring:url value="../resources/css/startmin.css"/>" rel="stylesheet" type="text/css">
+    <link href="<spring:url value="../resources/css/font-awesome.min.css"/>" rel="stylesheet" type="text/css">
+    <link href="<spring:url value="../resources/css/timeline.css"/>" rel="stylesheet" type="text/css">
+    <link href="<spring:url value="../resources/css/morris.css"/>" rel="stylesheet" type="text/css">
+    <link href="<spring:url value="../resources/css/toastr.min.css"/>" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -98,6 +99,9 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Пользователи
+                            <button onclick="clearEditForm()" style="margin-left: 20px;" class="btn btn-success btn-sm user-edit-btn" data-toggle="modal" data-target="#myModal">
+                                Создать пользователя
+                            </button>
                         </div>
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
@@ -109,22 +113,23 @@
                                         <th>Фамилия</th>
                                         <th>Логин</th>
                                         <th>Пароль</th>
-                                        <th>Статус</th>
                                         <th>Управление</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <c:forEach items="${users}" var="user" >
+                                        <c:forEach items="${users}" var="user" varStatus="status">
                                             <tr class="gradeA">
                                                 <td>${user.id}</td>
                                                 <td>${user.firstName}</td>
                                                 <td>${user.lastName}</td>
                                                 <td>${user.login}</td>
                                                 <td>${user.password}</td>
-                                                <td>${user.status.name()}</td>
                                                 <td>
-                                                    <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal">
+                                                    <button onclick="fillEditForm(${status.index})" class="btn btn-primary btn-sm user-edit-btn" data-toggle="modal" data-target="#myModal">
                                                         Изменить
+                                                    </button>
+                                                    <button onclick="deleteUser(${user.id})" class="btn btn-danger btn-sm user-edit-btn">
+                                                        Удалить
                                                     </button>
                                                 </td>
                                             </tr>
@@ -138,34 +143,31 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                            <h4 class="modal-title" id="myModalLabel"></h4>
                                         </div>
-                                        <form role="form" action="${pageContext.request.contextPath}/api/users" method="post">
-                                            <div class="modal-body">
-
-                                                    <div class="form-group">
-                                                        <label>Имя</label>
-                                                        <input class="form-control" name="firstName" type="text">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Фамилия</label>
-                                                        <input class="form-control" name="lastName" type="text">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Логин</label>
-                                                        <input class="form-control" name="login" type="text">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Пароль</label>
-                                                        <input class="form-control" name="password" type="text">
-                                                    </div>
-
+                                        <div id="userEditForm" class="modal-body">
+                                            <input id="userIdInput" type="hidden" name="id">
+                                            <div class="form-group">
+                                                <label>Имя</label>
+                                                <input class="form-control" name="firstName" type="text">
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                <input type="submit" class="btn btn-success" value="Сохранить">
+                                            <div class="form-group">
+                                                <label>Фамилия</label>
+                                                <input class="form-control" name="lastName" type="text">
                                             </div>
-                                        </form>
+                                            <div class="form-group">
+                                                <label>Логин</label>
+                                                <input class="form-control" name="login" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Пароль</label>
+                                                <input class="form-control" name="password" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                                            <input onclick="applyChanges()" type="submit" class="btn btn-success" data-dismiss="modal" value="Сохранить">
+                                        </div>
                                     </div>
                                     <!-- /.modal-content -->
                                 </div>
@@ -181,19 +183,109 @@
 
 </div>
 
-<script src="<spring:url value="../js/jquery.min.js"/>" type="text/javascript"></script>
-<script src="<spring:url value="../js/bootstrap.min.js"/>" type="text/javascript"></script>
-<script src="<spring:url value="../js/metisMenu.min.js"/>" type="text/javascript"></script>
-<script src="<spring:url value="../js/dataTables/jquery.dataTables.min.js"/>"></script>
-<script src="<spring:url value="../js/dataTables/dataTables.bootstrap.min.js"/>"></script>
-<script src="<spring:url value="../js/startmin.js"/>" type="text/javascript"></script>
+<script src="<spring:url value="../resources/js/jquery.min.js"/>" type="text/javascript"></script>
+<script src="<spring:url value="../resources/js/bootstrap.min.js"/>" type="text/javascript"></script>
+<script src="<spring:url value="../resources/js/metisMenu.min.js"/>" type="text/javascript"></script>
+<script src="<spring:url value="../resources/js/dataTables/jquery.dataTables.min.js"/>"></script>
+<script src="<spring:url value="../resources/js/dataTables/dataTables.bootstrap.min.js"/>"></script>
+<script src="<spring:url value="../resources/js/startmin.js"/>" type="text/javascript"></script>
+<script src="<spring:url value="../resources/js/toastr.min.js"/>" type="text/javascript"></script>
 
 <script>
+
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
             responsive: true
         });
     });
+
+    var users = {
+        <c:forEach items="${users}" var="user" varStatus="status">
+            "${status.index}": {
+                id: "${user.id}",
+                firstName: "${user.firstName}",
+                lastName: "${user.lastName}",
+                login: "${user.login}",
+                password: "${user.password}"
+            },
+        </c:forEach>
+    };
+    var userFormInputs = $("#userEditForm").find("input");
+    var modalTitle = $("#myModalLabel");
+
+    function fillEditForm(userIndex) {
+        modalTitle.text("Редактирование пользователя");
+        var user = users[userIndex];
+        userFormInputs[0].value = user.id;
+        userFormInputs[1].value = user.firstName;
+        userFormInputs[2].value = user.lastName;
+        userFormInputs[3].value = user.login;
+        userFormInputs[4].value = user.password;
+    }
+
+    function clearEditForm() {
+        modalTitle.text("Создание пользователя");
+        userFormInputs.each(function () {
+            this.value = '';
+        })
+    }
+
+    function applyChanges() {
+        var method, jsonUser;
+        if (userFormInputs[0].value.length === 0) {
+            method = "POST";
+            jsonUser = {
+                firstName: userFormInputs[1].value,
+                lastName: userFormInputs[2].value,
+                login: userFormInputs[3].value,
+                password: userFormInputs[4].value
+            }
+        } else {
+            method = "PUT";
+            jsonUser = {
+                id: userFormInputs[0].value,
+                firstName: userFormInputs[1].value,
+                lastName: userFormInputs[2].value,
+                login: userFormInputs[3].value,
+                password: userFormInputs[4].value
+            }
+        }
+        if (!valid(jsonUser)) {
+            toastr["warning"]("Логин/пароль не должны быть пустыми", "Ошибка")
+            return;
+        }
+
+        $.ajax({
+            url: "${pageContext.request.contextPath}/api/users",
+            method: method,
+            data: JSON.stringify(jsonUser),
+            contentType: "application/json",
+            dataType: "json",
+            success: function () {
+                if (method === "POST") toastr["success"]("Пользователь создан", "Успех");
+                else if (method === "PUT") toastr["success"]("Пользователь успешно редактирован", "Успех");
+                $('#dataTables-example').ajax.reload();
+                //reloadUserTable();
+            }
+        })
+    }
+
+    function valid(data) {
+        return data.login.length !== 0 && data.password.length !== 0;
+    }
+
+    function deleteUser(id) {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/api/users/" + id,
+            method: "DELETE",
+            dataType: "json",
+            success: function () {
+                toastr["success"]("Пользователь успешно удалён", "Успех");
+                $('#dataTables-example').ajax.reload();
+                //reloadUserTable();
+            }
+        })
+    }
 </script>
 
 </body>

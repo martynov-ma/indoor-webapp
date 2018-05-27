@@ -1,7 +1,6 @@
 package example.org.indoor.dao;
 
 import example.org.indoor.entity.User;
-import example.org.indoor.entity.UserStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +31,6 @@ public class UserDAOImplTest {
         user.setPassword("password");
         user.setFirstName("firstName");
         user.setLastName("lastName");
-        user.setStatus(UserStatus.ACTIVE);
 
         userDAO.create(user);
     }

@@ -7,10 +7,10 @@
     <meta charset="utf-8">
     <title>Indoor-навигация | Вход</title>
 
-    <link href="<spring:url value="../css/bootstrap.min.css"/>" rel="stylesheet" type="text/css">
-    <link href="<spring:url value="../css/metisMenu.min.css"/>" rel="stylesheet" type="text/css">
-    <link href="<spring:url value="../css/startmin.css"/>" rel="stylesheet" type="text/css">
-    <link href="<spring:url value="../css/font-awesome.min.css"/>" rel="stylesheet" type="text/css">
+    <link href="<spring:url value="../resources/css/bootstrap.min.css"/>" rel="stylesheet">
+    <link href="<spring:url value="../resources/css/metisMenu.min.css"/>" rel="stylesheet">
+    <link href="<spring:url value="../resources/css/startmin.css"/>" rel="stylesheet">
+    <link href="<spring:url value="../resources/css/font-awesome.min.css"/>" rel="stylesheet">
 
 </head>
 <body>
@@ -50,9 +50,9 @@
     </div>
 </div>
 
-<script src="<spring:url value="../js/jquery.min.js"/>" type="text/javascript"></script>
-<script src="<spring:url value="../js/bootstrap.min.js"/>" type="text/javascript"></script>
-<script src="<spring:url value="../js/metisMenu.min.js"/>" type="text/javascript"></script>
+<script src="<spring:url value="../resources/js/jquery.min.js"/>" type="text/javascript"></script>
+<script src="<spring:url value="../resources/js/bootstrap.min.js"/>" type="text/javascript"></script>
+<script src="<spring:url value="../resources/js/metisMenu.min.js"/>" type="text/javascript"></script>
 
 </body>
 </html>

@@ -32,7 +32,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public Boolean delete(Integer id) {
-        return userDAO.execute("UPDATE users SET status = 'DELETED' WHERE id = " + id) == 1;
+        userDAO.delete(id);
+        return true;
     }
 
     @Transactional

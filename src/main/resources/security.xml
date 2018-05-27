@@ -9,8 +9,12 @@
 
     <global-method-security pre-post-annotations="enabled"/>
 
+    <http pattern="/favicon.ico" security="none" />
 
     <http auto-config="true" use-expressions="true">
+        <intercept-url pattern="/login.html" access="isAnonymous()" />
+        <intercept-url pattern="/resources/**" access="permitAll"/>
+        <intercept-url pattern="/**" access="isAuthenticated()"/>
         <form-login login-page="/login.html"
                     username-parameter="j_username"
                     password-parameter="j_password"

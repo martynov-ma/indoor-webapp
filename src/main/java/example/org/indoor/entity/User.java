@@ -25,10 +25,6 @@ public class User extends BaseEntity<Integer> {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private UserStatus status;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -75,14 +71,6 @@ public class User extends BaseEntity<Integer> {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public UserStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(UserStatus status) {
-        this.status = status;
     }
 
     public Set<Role> getRoles() {

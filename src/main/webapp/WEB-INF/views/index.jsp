@@ -8,26 +8,18 @@
     <meta charset="utf-8">
     <title>Indoor-навигация | Домашняя страница</title>
 
-    <link href="<spring:url value="../css/bootstrap.min.css"/>" rel="stylesheet" type="text/css">
-    <link href="<spring:url value="../css/metisMenu.min.css"/>" rel="stylesheet" type="text/css">
-    <link href="<spring:url value="../css/startmin.css"/>" rel="stylesheet" type="text/css">
-    <link href="<spring:url value="../css/font-awesome.min.css"/>" rel="stylesheet" type="text/css">
-    <link href="<spring:url value="../css/timeline.css"/>" rel="stylesheet" type="text/css">
-    <link href="<spring:url value="../css/morris.css"/>" rel="stylesheet" type="text/css">
+    <link href="<spring:url value="../resources/css/bootstrap.min.css"/>" rel="stylesheet" type="text/css">
+    <link href="<spring:url value="../resources/css/metisMenu.min.css"/>" rel="stylesheet" type="text/css">
+    <link href="<spring:url value="../resources/css/startmin.css"/>" rel="stylesheet" type="text/css">
+    <link href="<spring:url value="../resources/css/font-awesome.min.css"/>" rel="stylesheet" type="text/css">
+    <link href="<spring:url value="../resources/css/timeline.css"/>" rel="stylesheet" type="text/css">
+    <link href="<spring:url value="../resources/css/morris.css"/>" rel="stylesheet" type="text/css">
 
     <style type="text/css">
         .demo-container {
             width: 1000px;
             height: 560px;
-            box-sizing: border-box;
-            background-color: #f5f5f5;
             padding: 20px 15px 15px 15px;
-            border: 1px solid #ddd;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-            -o-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            -ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            -moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
         .demo-placeholder {
             width: 100%;
@@ -121,30 +113,71 @@
             </div>
 
             <!-- ... Your content goes here ... -->
-            <div class="row">
+            <div class="panel tabbed-panel panel-default" style="width: 1040px;">
+                <div class="panel-heading clearfix">
+                    <div class="panel-title pull-left">План здания по этажам</div>
+                    <div class="pull-right">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab-default-1" data-toggle="tab">Этаж 1</a></li>
+                            <li><a href="#tab-default-2" data-toggle="tab">Этаж 2</a></li>
+                            <li><a href="#tab-default-3" data-toggle="tab">Этаж 3</a></li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Ещё <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#tab-default-3" data-toggle="tab">Этаж 4</a></li>
+                                    <li><a href="#tab-default-4" data-toggle="tab">Этаж 5</a></li>
+                                    <li><a href="#tab-default-5" data-toggle="tab">Этаж 6</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="tab-default-1">
+                            <div class="demo-container">
+                                <div id="placeholder" class="demo-placeholder"></div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-default-2">
+                            Page 2
+                        </div>
+                        <div class="tab-pane fade" id="tab-default-3">
+                            Page 3
+                        </div>
+                        <div class="tab-pane fade" id="tab-default-4">
+                            Page 4
+                        </div>
+                        <div class="tab-pane fade" id="tab-default-5">
+                            Page 5
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--div class="row">
                 <div class="demo-container">
                     <div id="placeholder" class="demo-placeholder"></div>
                 </div>
-            </div>
+            </div-->
 
         </div>
     </div>
 
 </div>
 
-<script src="<spring:url value="../js/jquery.min.js"/>" type="text/javascript"></script>
-<script src="<spring:url value="../js/flot/jquery.flot.js"/>" type="text/javascript"></script>
-<script src="<spring:url value="../js/flot/jquery.flot.navigate.js"/>" type="text/javascript"></script>
-<script src="<spring:url value="../js/flot/jquery.flot.image.js"/>" type="text/javascript"></script>
-<script src="<spring:url value="../js/bootstrap.min.js"/>" type="text/javascript"></script>
-<script src="<spring:url value="../js/metisMenu.min.js"/>" type="text/javascript"></script>
-<script src="<spring:url value="../js/startmin.js"/>" type="text/javascript"></script>
+<script src="<spring:url value="../resources/js/jquery.min.js"/>" type="text/javascript"></script>
+<script src="<spring:url value="../resources/js/flot/jquery.flot.js"/>" type="text/javascript"></script>
+<script src="<spring:url value="../resources/js/flot/jquery.flot.navigate.js"/>" type="text/javascript"></script>
+<script src="<spring:url value="../resources/js/flot/jquery.flot.image.js"/>" type="text/javascript"></script>
+<script src="<spring:url value="../resources/js/bootstrap.min.js"/>" type="text/javascript"></script>
+<script src="<spring:url value="../resources/js/metisMenu.min.js"/>" type="text/javascript"></script>
+<script src="<spring:url value="../resources/js/startmin.js"/>" type="text/javascript"></script>
 
 <script type="text/javascript">
     $(function() {
         var placeholder = $("#placeholder");
         var data = [ {
-            data: [ [ "img/floor1.jpg", 0, 0, 2000, 1650 ] ],
+            data: [ [ "resources/img/floor1.jpg", 0, 0, 2000, 1650 ] ],
             images: { show: true }, bars: { show: false }, points: { show: false }, lines: { show: false }
         }, {
             label: "user",
@@ -153,7 +186,7 @@
             images: { show: false }, bars: { show: false }, lines: { show: false },
             points: { show: true, radius: 2, lineWidth: 3 }
         }, {
-            label: "label",
+            label: "beacon",
             clickable: true,
             data: [ [700, 540], [800, 540], [900, 540],
                 [1000, 540], [1100, 540], [1200, 540],

@@ -12,13 +12,13 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="varchar(50)"/>
-            <column name="floor" type="int">
+            <column name="floorNum" type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="cordx" type="float">
+            <column name="cordx" type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="cordy" type="float">
+            <column name="cordy" type="int">
                 <constraints nullable="false"/>
             </column>
         </createTable>
