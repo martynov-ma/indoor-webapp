@@ -93,19 +93,18 @@
                 </div>
             </div>
 
-            <!-- ... Your content goes here ... -->
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" style="width: 1080px">
                         <div class="panel-heading">
                             Пользователи
-                            <button onclick="clearEditForm()" style="margin-left: 20px;" class="btn btn-success btn-sm user-edit-btn" data-toggle="modal" data-target="#myModal">
+                            <button id="createUserBtn" style="margin-left: 20px;" class="btn btn-success btn-sm user-edit-btn" data-toggle="modal" data-target="#myModal">
                                 Создать пользователя
                             </button>
                         </div>
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <table class="table table-striped table-bordered table-hover" id="usersTable">
                                     <thead>
                                     <tr>
                                         <th>ID</th>
@@ -118,17 +117,17 @@
                                     </thead>
                                     <tbody>
                                         <c:forEach items="${users}" var="user" varStatus="status">
-                                            <tr class="gradeA">
+                                            <tr id="userEntry_${user.id}" class="gradeA">
                                                 <td>${user.id}</td>
                                                 <td>${user.firstName}</td>
                                                 <td>${user.lastName}</td>
                                                 <td>${user.login}</td>
                                                 <td>${user.password}</td>
                                                 <td>
-                                                    <button onclick="fillEditForm(${status.index})" class="btn btn-primary btn-sm user-edit-btn" data-toggle="modal" data-target="#myModal">
+                                                    <button onclick="fillEditForm(${user.id})" class="btn btn-primary btn-sm user-edit-btn" data-toggle="modal" data-target="#myModal">
                                                         Изменить
                                                     </button>
-                                                    <button onclick="deleteUser(${user.id})" class="btn btn-danger btn-sm user-edit-btn">
+                                                    <button id="deleteUserBtn_${user.id}" class="btn btn-danger btn-sm user-edit-btn delete-user-btn">
                                                         Удалить
                                                     </button>
                                                 </td>
@@ -138,12 +137,12 @@
                                 </table>
                             </div>
                             <!-- Modal -->
-                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="myModalLabel"></h4>
+                                            <h4 class="modal-title" id="modalLabel"></h4>
                                         </div>
                                         <div id="userEditForm" class="modal-body">
                                             <input id="userIdInput" type="hidden" name="id">
@@ -169,9 +168,9 @@
                                             <input onclick="applyChanges()" type="submit" class="btn btn-success" data-dismiss="modal" value="Сохранить">
                                         </div>
                                     </div>
-                                    <!-- /.modal-content -->
+
                                 </div>
-                                <!-- /.modal-dialog -->
+
                             </div>
                         </div>
                     </div>
@@ -193,98 +192,118 @@
 
 <script>
 
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
+    var usersApiUrl = '${pageContext.request.contextPath}/api/users';
+
+    window.onload = function () {
+        var userTable = $('#usersTable');
+        userTable.DataTable({
             responsive: true
         });
-    });
 
-    var users = {
-        <c:forEach items="${users}" var="user" varStatus="status">
-            "${status.index}": {
-                id: "${user.id}",
-                firstName: "${user.firstName}",
-                lastName: "${user.lastName}",
-                login: "${user.login}",
-                password: "${user.password}"
-            },
-        </c:forEach>
+        $('#createUserBtn').bind("click", function () {
+            $("#modalLabel").text("Создание пользователя");
+            clearUserEditForm();
+        });
+
+        userTable.find('.delete-user-btn').each(function (index, btn) {
+            btn.addEventListener("click", function () {
+                deleteEntity(usersApiUrl, btn.id.substring(btn.id.indexOf('_') + 1), 'Пользователь успешно удалён')
+            })
+        })
     };
-    var userFormInputs = $("#userEditForm").find("input");
-    var modalTitle = $("#myModalLabel");
 
-    function fillEditForm(userIndex) {
-        modalTitle.text("Редактирование пользователя");
-        var user = users[userIndex];
-        userFormInputs[0].value = user.id;
-        userFormInputs[1].value = user.firstName;
-        userFormInputs[2].value = user.lastName;
-        userFormInputs[3].value = user.login;
-        userFormInputs[4].value = user.password;
+    function fillEditForm(userId) {
+        $("#modalLabel").text("Редактирование пользователя");
+        var userFormInputs = $("#userEditForm").find("input");
+        var userTableEntry = $("#userEntry_" + userId).find("td");
+        userFormInputs[0].value = userTableEntry[0].innerText;
+        userFormInputs[1].value = userTableEntry[1].innerText;
+        userFormInputs[2].value = userTableEntry[2].innerText;
+        userFormInputs[3].value = userTableEntry[3].innerText;
+        userFormInputs[4].value = userTableEntry[4].innerText;
     }
 
-    function clearEditForm() {
-        modalTitle.text("Создание пользователя");
-        userFormInputs.each(function () {
-            this.value = '';
+    function clearUserEditForm() {
+        $("#userEditForm").find("input").each(function (index, input) {
+            input.value = '';
         })
     }
 
     function applyChanges() {
-        var method, jsonUser;
+        var userFormInputs = $("#userEditForm").find("input");
+        var user = {
+            firstName: userFormInputs[1].value,
+            lastName: userFormInputs[2].value,
+            login: userFormInputs[3].value,
+            password: userFormInputs[4].value
+        };
+        var method;
         if (userFormInputs[0].value.length === 0) {
             method = "POST";
-            jsonUser = {
-                firstName: userFormInputs[1].value,
-                lastName: userFormInputs[2].value,
-                login: userFormInputs[3].value,
-                password: userFormInputs[4].value
-            }
         } else {
             method = "PUT";
-            jsonUser = {
-                id: userFormInputs[0].value,
-                firstName: userFormInputs[1].value,
-                lastName: userFormInputs[2].value,
-                login: userFormInputs[3].value,
-                password: userFormInputs[4].value
-            }
+            user.id = userFormInputs[0].value;
         }
-        if (!valid(jsonUser)) {
+        if (!valid(user)) {
             toastr["warning"]("Логин/пароль не должны быть пустыми", "Ошибка")
             return;
         }
-
-        $.ajax({
-            url: "${pageContext.request.contextPath}/api/users",
-            method: method,
-            data: JSON.stringify(jsonUser),
-            contentType: "application/json",
-            dataType: "json",
-            success: function () {
-                if (method === "POST") toastr["success"]("Пользователь создан", "Успех");
-                else if (method === "PUT") toastr["success"]("Пользователь успешно редактирован", "Успех");
-                $('#dataTables-example').ajax.reload();
-                //reloadUserTable();
-            }
-        })
+        updateEntity(user, usersApiUrl, method)
     }
 
     function valid(data) {
         return data.login.length !== 0 && data.password.length !== 0;
     }
 
-    function deleteUser(id) {
+    function updateEntity(entity, url, method) {
         $.ajax({
-            url: "${pageContext.request.contextPath}/api/users/" + id,
-            method: "DELETE",
+            url: url,
+            method: method,
+            data: JSON.stringify(entity),
+            contentType: "application/json",
             dataType: "json",
             success: function () {
-                toastr["success"]("Пользователь успешно удалён", "Успех");
-                $('#dataTables-example').ajax.reload();
-                //reloadUserTable();
+                if (method === "POST") toastr["success"]("Пользователь создан", "Успех");
+                else if (method === "PUT") toastr["success"]("Пользователь успешно редактирован", "Успех");
+                reloadEntityTable(url);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                toastr["error"]("Ошибка при редактировании пользователя: " + textStatus, "Ошибка");
             }
         })
+    }
+
+    function deleteEntity(url, id, successMsg) {
+        $.ajax({
+            url: url + '/' + id,
+            method: "DELETE",
+            success: function () {
+                toastr["success"](successMsg, "Успех");
+                reloadEntityTable(url);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                toastr["error"]("Ошибка при удалении: " + textStatus, "Ошибка");
+            }
+        })
+    }
+
+    function reloadEntityTable(url) {
+        $.ajax({
+            url: url,
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+                updateUserTable(data.result);
+            }
+        })
+    }
+
+    function updateUserTable(users) {
+        console.log(users);
+        /*var datatable = $("#usersTable").dataTable().api();
+        datatable.clear();
+        datatable.rows.add(users);
+        datatable.draw();*/
     }
 </script>
 
