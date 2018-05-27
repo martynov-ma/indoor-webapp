@@ -21,8 +21,12 @@ import java.util.List;
 @RequestMapping("/api/beacons")
 public class BeaconController {
 
+    private final BeaconService beaconService;
+
     @Autowired
-    private BeaconService beaconService;
+    public BeaconController(BeaconService beaconService) {
+        this.beaconService = beaconService;
+    }
 
     /*
      * GET /api/beacons - список меток

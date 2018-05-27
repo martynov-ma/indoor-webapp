@@ -21,8 +21,12 @@ import java.util.List;
 @RequestMapping("/api/roles")
 public class RoleController {
 
+    private final RoleService roleService;
+
     @Autowired
-    private RoleService roleService;
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
     /*
      * GET /api/roles - список ролей

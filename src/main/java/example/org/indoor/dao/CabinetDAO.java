@@ -4,4 +4,5 @@ import example.org.indoor.entity.Cabinet;
 
 public interface CabinetDAO extends GenericDAO<Cabinet, Integer>  {
 
+    Cabinet findByName(String name);
 }

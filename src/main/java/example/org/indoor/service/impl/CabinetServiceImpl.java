@@ -12,8 +12,12 @@ import java.util.List;
 @Service
 public class CabinetServiceImpl implements CabinetService {
 
+    private final CabinetDAO cabinetDAO;
+
     @Autowired
-    private CabinetDAO cabinetDAO;
+    public CabinetServiceImpl(CabinetDAO cabinetDAO) {
+        this.cabinetDAO = cabinetDAO;
+    }
 
     @Transactional
     public Integer create(Cabinet cabinet) {
@@ -23,6 +27,11 @@ public class CabinetServiceImpl implements CabinetService {
     @Transactional
     public Cabinet find(Integer id) {
         return cabinetDAO.find(id);
+    }
+
+    @Override
+    public Cabinet findByName(String name) {
+        return cabinetDAO.findByName(name);
     }
 
     @Transactional

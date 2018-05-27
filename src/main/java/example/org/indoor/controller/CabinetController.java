@@ -10,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,19 +18,30 @@ import java.util.List;
 @RequestMapping("/api/cabinets")
 public class CabinetController {
 
+    private final CabinetService cabinetService;
+
     @Autowired
-    private CabinetService cabinetService;
+    public CabinetController(CabinetService cabinetService) {
+        this.cabinetService = cabinetService;
+    }
 
     /*
      * GET /api/cabinets - список кабинетов
+     * GET /api/cabinets?name={name} - информация о кабинете по его имени
      */
     @PreAuthorize("hasAnyAuthority('USER', 'MANAGER', 'ADMIN')")
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<Response> list() {
+    public ResponseEntity<Response> list(@RequestParam(value = "name", required = false) String name) {
         try {
-            List<Cabinet> cabinets = cabinetService.readAll();
-            return new ResponseEntity<Response>(new SuccessResponse(cabinets), HttpStatus.OK);
+            Object content;
+            if (name == null) {
+                content = cabinetService.readAll();
+            } else {
+                content = cabinetService.findByName(name);
+            }
+            return new ResponseEntity<Response>(new SuccessResponse(content), HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<Response>(new ErrorResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

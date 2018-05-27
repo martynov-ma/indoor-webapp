@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class EntityViewController {
 
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public EntityViewController(UserService userService) {
+        this.userService = userService;
+    }
 
     @RequestMapping(value = "/view/users.html", method = RequestMethod.GET)
     public String users(Model model) {

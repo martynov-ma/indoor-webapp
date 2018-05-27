@@ -12,8 +12,12 @@ import java.util.List;
 @Service
 public class BeaconServiceImpl implements BeaconService {
 
+    private final BeaconDAO beaconDAO;
+
     @Autowired
-    private BeaconDAO beaconDAO;
+    public BeaconServiceImpl(BeaconDAO beaconDAO) {
+        this.beaconDAO = beaconDAO;
+    }
 
     @Transactional
     public Integer create(Beacon beacon) {
