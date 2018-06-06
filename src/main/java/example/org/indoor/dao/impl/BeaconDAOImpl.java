@@ -16,4 +16,11 @@ public class BeaconDAOImpl extends GenericDAOImpl<Beacon, Integer> implements Be
         query.setParameter("floorNum", floorNum);
         return (List<Beacon>) query.getResultList();
     }
+
+    @Override
+    public Beacon findByName(String beaconName) {
+        Query query = entityManager.createQuery("from Beacon where name = :name");
+        query.setParameter("name", beaconName);
+        return (Beacon) query.getResultList().get(0);
+    }
 }

@@ -11,5 +11,6 @@
     <include file="RR-03_03_create-users-roles-table-constraints.xml" relativeToChangelogFile="true"/>
     <include file="RR-04_create-beacons-table.xml" relativeToChangelogFile="true"/>
     <include file="RR-05_create-cabinets-table.xml" relativeToChangelogFile="true"/>
+    <include file="RR-06_create-user-location-table.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

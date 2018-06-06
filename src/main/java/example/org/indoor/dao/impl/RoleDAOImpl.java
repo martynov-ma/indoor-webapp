@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class RoleDAOImpl extends GenericDAOImpl<Role, Integer> implements RoleDAO {
-    
 }

@@ -18,26 +18,26 @@ public class Cabinet extends BaseEntity<Integer> {
     private Integer floorNum;
 
     @Column(name = "cordx1")
-    private Integer cordX1;
+    private Integer cordx1;
 
     @Column(name = "cordy1")
-    private Integer cordY1;
+    private Integer cordy1;
 
     @Column(name = "cordx2")
-    private Integer cordX2;
+    private Integer cordx2;
 
     @Column(name = "cordy2")
-    private Integer cordY2;
+    private Integer cordy2;
 
     public Cabinet() {}
 
-    public Cabinet(String name, Integer floorNum, Integer cordX1, Integer cordY1, Integer cordX2, Integer cordY2){
+    public Cabinet(String name, Integer floorNum, Integer cordx1, Integer cordy1, Integer cordx2, Integer cordy2){
         this.name = name;
         this.floorNum = floorNum;
-        this.cordX1 = cordX1;
-        this.cordY1 = cordY1;
-        this.cordX2 = cordX2;
-        this.cordY2 = cordY2;
+        this.cordx1 = cordx1;
+        this.cordy1 = cordy1;
+        this.cordx2 = cordx2;
+        this.cordy2 = cordy2;
     }
 
     @Override
@@ -66,35 +66,35 @@ public class Cabinet extends BaseEntity<Integer> {
         this.floorNum = floorNum;
     }
 
-    public Integer getCordX1() {
-        return cordX1;
+    public Integer getCordx1() {
+        return cordx1;
     }
 
-    public void setCordX1(Integer cordX1) {
-        this.cordX1 = cordX1;
+    public void setCordx1(Integer cordx1) {
+        this.cordx1 = cordx1;
     }
 
-    public Integer getCordY1() {
-        return cordY1;
+    public Integer getCordy1() {
+        return cordy1;
     }
 
-    public void setCordY1(Integer cordY1) {
-        this.cordY1 = cordY1;
+    public void setCordy1(Integer cordy1) {
+        this.cordy1 = cordy1;
     }
 
-    public Integer getCordX2() {
-        return cordX2;
+    public Integer getCordx2() {
+        return cordx2;
     }
 
-    public void setCordX2(Integer cordX2) {
-        this.cordX2 = cordX2;
+    public void setCordx2(Integer cordx2) {
+        this.cordx2 = cordx2;
     }
 
-    public Integer getCordY2() {
-        return cordY2;
+    public Integer getCordy2() {
+        return cordy2;
     }
 
-    public void setCordY2(Integer cordY2) {
-        this.cordY2 = cordY2;
+    public void setCordy2(Integer cordy2) {
+        this.cordy2 = cordy2;
     }
 }

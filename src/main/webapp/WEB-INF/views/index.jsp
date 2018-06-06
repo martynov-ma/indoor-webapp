@@ -18,7 +18,7 @@
 
     <style type="text/css">
         .demo-container {
-            width: 1000px;
+            width: 950px;
             height: 560px;
             padding: 20px 15px 15px 15px;
         }
@@ -106,7 +106,7 @@
             </div>
 
             <!-- ... Your content goes here ... -->
-            <div class="panel tabbed-panel panel-default" style="width: 1040px; height: 640px">
+            <div class="panel tabbed-panel panel-default" style="width: 1000px; height: 640px">
                 <div class="panel-heading clearfix">
                     <div class="panel-title pull-left">
                         План здания по этажам

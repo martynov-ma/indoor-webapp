@@ -7,7 +7,7 @@ import java.util.List;
 
 public class CabinetLocation {
 
-    static private List<Cabinet> array = new ArrayList<>();
+    public static List<Cabinet> array = new ArrayList<>();
 
     static {
 
@@ -105,22 +105,14 @@ public class CabinetLocation {
         Cabinet c144 = new Cabinet("144",1,395,424,489,526);
         array.add(c144);
 
-        Cabinet sportzal = new Cabinet("спортзал",1,133,152,395,424);
+        Cabinet sportzal = new Cabinet("Спортзал",1,133,152,395,424);
         array.add(sportzal);
-        Cabinet Sportzal = new Cabinet("Спортзал",1,133,152,395,424);
-        array.add(Sportzal);
-        Cabinet bufet = new Cabinet("буфет",1,394,1026,490,1084);
+        Cabinet bufet = new Cabinet("Буфет",1,394,1026,490,1084);
         array.add(bufet);
-        Cabinet Bufet = new Cabinet("Буфет",1,394,1026,490,1084);
-        array.add(Bufet);
-        Cabinet bibl = new Cabinet("библиотека",1,1683,1158,1950,1412);
+        Cabinet bibl = new Cabinet("Библиотека",1,1683,1158,1950,1412);
         array.add(bibl);
-        Cabinet Bibl = new Cabinet("Библиотека",1,1683,1158,1950,1412);
-        array.add(Bibl);
-        Cabinet actzal = new Cabinet("актовый зал",1,227,1281,354,1406);
+        Cabinet actzal = new Cabinet("Актовый зал",1,227,1281,354,1406);
         array.add(actzal);
-        Cabinet Actzal = new Cabinet("Актовый зал",1,227,1281,354,1406);
-        array.add(Actzal);
 
 
 
@@ -195,26 +187,16 @@ public class CabinetLocation {
         Cabinet c200e = new Cabinet("200е",2,272,1019,346,1134);
         array.add(c200e);
 
-        Cabinet profkom = new Cabinet("профком",2,347,1315,403,1358);
+        Cabinet profkom = new Cabinet("Профком",2,347,1315,403,1358);
         array.add(profkom);
-        Cabinet Profkom = new Cabinet("Профком",2,347,1315,403,1358);
-        array.add(Profkom);
-        Cabinet telecentr = new Cabinet("телецентр",2,227,1155,347,1208);
+        Cabinet telecentr = new Cabinet("Телецентр",2,227,1155,347,1208);
         array.add(telecentr);
-        Cabinet Telecentr = new Cabinet("Телецентр",2,227,1155,347,1208);
-        array.add(Telecentr);
-        Cabinet costum = new Cabinet("костюмерная",2,395,239,524,482);
+        Cabinet costum = new Cabinet("Костюмерная",2,395,239,524,482);
         array.add(costum);
-        Cabinet Costum = new Cabinet("Костюмерная",2,395,239,524,482);
-        array.add(Costum);
-        Cabinet readzal = new Cabinet("читальный зал",2,1683,1212,1762,1364);
+        Cabinet readzal = new Cabinet("Читальный зал",2,1683,1212,1762,1364);
         array.add(readzal);
-        Cabinet Readzal = new Cabinet("Читальный зал",2,1683,1212,1762,1364);
-        array.add(Readzal);
-        Cabinet stolovaya = new Cabinet("столовая",2,1754,1019,1783,1096);
+        Cabinet stolovaya = new Cabinet("Столовая",2,1754,1019,1783,1096);
         array.add(stolovaya);
-        Cabinet Stolovaya = new Cabinet("Столовая",2,1754,1019,1783,1096);
-        array.add(Stolovaya);
 
 
 
@@ -381,13 +363,9 @@ public class CabinetLocation {
         Cabinet c429 = new Cabinet("429",4,2360,368,2470,459);
         array.add(c429);
 
-        Cabinet bm = new Cabinet("биологический музей",4,31,368,340,459);
+        Cabinet bm = new Cabinet("Биологический музей",4,31,368,340,459);
         array.add(bm);
-        Cabinet Bm = new Cabinet("Биологический музей",4,31,368,340,459);
-        array.add(Bm);
-        Cabinet Zhu = new Cabinet("Живой уголок",4,867,368,984,460);
-        array.add(Zhu);
-        Cabinet zhu = new Cabinet("живой уголок",4,867,368,984,460);
+        Cabinet zhu = new Cabinet("Живой уголок",4,867,368,984,460);
         array.add(zhu);
 
         ///////ПЯИЫЙ ЭТАЖ/////////
@@ -479,9 +457,7 @@ public class CabinetLocation {
         Cabinet c539 = new Cabinet("539",5,2358,421,2463,520);
         array.add(c539);
 
-        Cabinet Lm = new Cabinet("Литературный музей",5,222,421,389,520);
-        array.add(Lm);
-        Cabinet lm = new Cabinet("литературный музей",5,222,421,389,520);
+        Cabinet lm = new Cabinet("Литературный музей",5,222,421,389,520);
         array.add(lm);
 
 

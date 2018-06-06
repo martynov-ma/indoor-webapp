@@ -95,7 +95,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-default" style="width: 1080px">
+                    <div class="panel panel-default" style="width: 900px">
                         <div class="panel-heading">
                             Пользователи
                             <button id="createUserBtn" style="margin-left: 20px;" class="btn btn-success btn-sm user-edit-btn" data-toggle="modal" data-target="#myModal">

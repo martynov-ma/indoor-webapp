@@ -95,7 +95,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-default" style="width: 1080px">
+                    <div class="panel panel-default" style="width: 900px">
                         <div class="panel-heading">
                             Bluetooth-метки
                             <button id="createBeaconBtn" style="margin-left: 20px;" class="btn btn-success btn-sm beacon-edit-btn" data-toggle="modal" data-target="#myModal">
@@ -245,7 +245,7 @@
                 beacon.id = beaconFormInputs[0].value;
             }
             if (!valid(beacon)) {
-                toastr["warning"]("Поля не должны быть пустыми", "Ошибка")
+                toastr["warning"]("Поля не должны быть пустыми", "Ошибка");
                 return;
             }
             updateEntity(beacon, beaconsApiUrl, method)
