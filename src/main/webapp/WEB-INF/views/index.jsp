@@ -85,7 +85,7 @@
                                 <a href="<c:url value="/view/beacons.html"/>">Bluetooth-метки</a>
                             </li>
                             <li>
-                                <a href="#">Кабинеты</a>
+                                <a href="<c:url value="/view/cabinets.html"/>">Кабинеты</a>
                             </li>
                         </ul>
                     </li>

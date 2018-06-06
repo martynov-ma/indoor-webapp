@@ -1,6 +1,7 @@
 package example.org.indoor.controller.ui;
 
 import example.org.indoor.service.BeaconService;
+import example.org.indoor.service.CabinetService;
 import example.org.indoor.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,11 +14,13 @@ public class EntityViewController {
 
     private final UserService userService;
     private final BeaconService beaconService;
+    private final CabinetService cabinetService;
 
     @Autowired
-    public EntityViewController(UserService userService, BeaconService beaconService) {
+    public EntityViewController(UserService userService, BeaconService beaconService, CabinetService cabinetService) {
         this.userService = userService;
         this.beaconService = beaconService;
+        this.cabinetService = cabinetService;
     }
 
     @RequestMapping(value = "/view/users.html", method = RequestMethod.GET)
@@ -30,5 +33,11 @@ public class EntityViewController {
     public String beacons(Model model) {
         model.addAttribute("beacons", beaconService.readAll());
         return "beacons";
+    }
+
+    @RequestMapping(value = "/view/cabinets.html", method = RequestMethod.GET)
+    public String cabinets(Model model) {
+        model.addAttribute("cabinets", cabinetService.readAll());
+        return "cabinets";
     }
 }
