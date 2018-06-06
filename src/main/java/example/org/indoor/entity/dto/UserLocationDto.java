@@ -2,14 +2,24 @@ package example.org.indoor.entity.dto;
 
 public class UserLocationDto {
 
+    private Integer floorNum;
     private Integer cordx;
     private Integer cordy;
 
     public UserLocationDto() {}
 
-    public UserLocationDto(Integer cordx, Integer cordy) {
+    public UserLocationDto(Integer floorNum, Integer cordx, Integer cordy) {
+        this.floorNum = floorNum;
         this.cordx = cordx;
         this.cordy = cordy;
+    }
+
+    public Integer getFloorNum() {
+        return floorNum;
+    }
+
+    public void setFloorNum(Integer floorNum) {
+        this.floorNum = floorNum;
     }
 
     public Integer getCordx() {
@@ -27,4 +37,5 @@ public class UserLocationDto {
     public void setCordy(Integer cordy) {
         this.cordy = cordy;
     }
+
 }

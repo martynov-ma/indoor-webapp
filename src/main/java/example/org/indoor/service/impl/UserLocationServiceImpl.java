@@ -3,7 +3,6 @@ package example.org.indoor.service.impl;
 import example.org.indoor.dao.BeaconDAO;
 import example.org.indoor.dao.UserLocationDAO;
 import example.org.indoor.entity.Beacon;
-import example.org.indoor.entity.User;
 import example.org.indoor.entity.UserLocation;
 import example.org.indoor.entity.dto.UserLocationDto;
 import example.org.indoor.service.UserLocationService;
@@ -51,7 +50,7 @@ public class UserLocationServiceImpl implements UserLocationService {
 
         UserLocation userLocation = new UserLocation(beacons.get(0).getFloorNum(), cordx, cordy, dateFormat.format(new Date()));
         userLocationDAO.create(userLocation);
-        return new UserLocationDto(userLocation.getCordx(), userLocation.getCordy());
+        return new UserLocationDto(userLocation.getFloorNum(), userLocation.getCordx(), userLocation.getCordy());
     }
 
     @Override
