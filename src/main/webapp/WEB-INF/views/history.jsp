@@ -63,7 +63,7 @@
                     <li>
                         <a href="<c:url value="/index.html"/>"><i class="fa fa-dashboard fa-fw"></i> Новости и события</a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="#"><i class="fa fa-table fa-fw"></i> Управление сущностями<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
@@ -73,12 +73,12 @@
                                 <a href="<c:url value="/view/beacons.html"/>">Bluetooth-метки</a>
                             </li>
                             <li>
-                                <a class="active" href="<c:url value="/view/cabinets.html"/>">Кабинеты</a>
+                                <a href="<c:url value="/view/cabinets.html"/>">Кабинеты</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="<c:url value="/view/history.html"/>"><i class="fa fa-history fa-fw"></i> История</a>
+                        <a class="active" href="<c:url value="/view/history.html"/>"><i class="fa fa-history fa-fw"></i> История</a>
                     </li>
                 </ul>
 
@@ -92,7 +92,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Управление</h1>
+                    <h1 class="page-header">История местонахождения пользователей</h1>
                 </div>
             </div>
 
@@ -100,32 +100,28 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default" style="width: 1000px">
                         <div class="panel-heading">
-                            Кабинеты
+                            Местонахождения пользователей
                         </div>
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
-                                <table id="cabinetsTable" class="table table-striped table-bordered table-hover">
+                                <table id="locationsTable" class="table table-striped table-bordered table-hover">
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Имя</th>
                                         <th>Этаж</th>
-                                        <th>Координата X1</th>
-                                        <th>Координата Y1</th>
-                                        <th>Координата X2</th>
-                                        <th>Координата Y2</th>
+                                        <th>Координата X</th>
+                                        <th>Координата Y</th>
+                                        <th>Дата и время</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach items="${cabinets}" var="cabinet">
-                                        <tr id="cabinetEntry_${cabinet.id}" class="gradeA">
-                                            <td>${cabinet.id}</td>
-                                            <td>${cabinet.name}</td>
-                                            <td>${cabinet.floorNum}</td>
-                                            <td>${cabinet.cordx1}</td>
-                                            <td>${cabinet.cordy1}</td>
-                                            <td>${cabinet.cordx2}</td>
-                                            <td>${cabinet.cordy2}</td>
+                                    <c:forEach items="${locationsHistory}" var="location">
+                                        <tr id="cabinetEntry_${location.id}" class="gradeA">
+                                            <td>${location.id}</td>
+                                            <td>${location.floorNum}</td>
+                                            <td>${location.cordx}</td>
+                                            <td>${location.cordy}</td>
+                                            <td>${location.date}</td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -152,8 +148,8 @@
 <script>
 
     $(function() {
-        var cabinetsTable = $('#cabinetsTable');
-        cabinetsTable.DataTable({
+        var locationsTable = $('#locationsTable');
+        locationsTable.DataTable({
             responsive: true
         });
     });

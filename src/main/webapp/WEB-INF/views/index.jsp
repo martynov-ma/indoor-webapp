@@ -89,6 +89,9 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="<c:url value="/view/history.html"/>"><i class="fa fa-history fa-fw"></i> История</a>
+                    </li>
                 </ul>
 
             </div>
